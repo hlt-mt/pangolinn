@@ -1,0 +1,35 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "pangolinn"
+version = "0.0.1"
+authors = [
+  { name="Marco Gaido", email="mgaido@fbk.eu" },
+  { name="Sara Papi", email="spapi@fbk.eu" }
+]
+description = "Helper library with tests that check common issues in neural network models."
+readme = "README.md"
+requires-python = ">=3.8"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: Apache-2.0",
+    "Operating System :: OS Independent",
+    "Topic :: Neural Networks :: Testing",
+]
+dependencies = [
+    "torch",
+    "pytest"
+]
+
+[project.urls]
+"Homepage" = "https://github.com/hlt-mt/pangolinn"
+"Bug Tracker" = "https://github.com/hlt-mt/pangolinn/issues"
+
+[project.optional-dependencies]
+dev = ["flake8"]
+release = ["build", "twine"]
+
+[tool.setuptools.packages.find]
+where = ["src"]
