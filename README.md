@@ -1,3 +1,7 @@
+<div align="center">
+  <img src="docs/imgs/pangolinn_logo.png" width="200" alt="logo">
+</div>
+
 # pangolinn: Unit Testing for Neural Networks
 
 As a Pangoling looks for bugs and catches them, the goal of this
