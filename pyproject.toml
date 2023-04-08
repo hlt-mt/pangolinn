@@ -28,7 +28,8 @@ dependencies = [
 "Bug Tracker" = "https://github.com/hlt-mt/pangolinn/issues"
 
 [project.optional-dependencies]
-dev = ["flake8"]
+# numpy avoid warnings when using torch convolutions in tests
+dev = ["flake8", "numpy"]
 release = ["build", "twine"]
 
 [tool.setuptools.packages.find]
