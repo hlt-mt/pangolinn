@@ -16,14 +16,14 @@ import unittest
 import torch
 from torch import Tensor, LongTensor, nn
 
-from src.pangolinn import padding
+from pangolinn import seq2seq
 
 
-class EmbeddingsWrapper(padding.EncoderModuleWrapper):
+class EmbeddingsWrapper(seq2seq.PangolinnSeq2SeqModuleWrapper):
     """
     Wrapper to test an Embeddings layer which takes integers as input and returns float embeddings.
     """
-    def build_encoder_module(self) -> nn.Module:
+    def build_module(self) -> nn.Module:
         return nn.Embedding(self.max_value_allowed, self.num_output_channels, padding_idx=0)
 
     @property
@@ -39,11 +39,11 @@ class EmbeddingsWrapper(padding.EncoderModuleWrapper):
         return 4
 
     def forward(self, x: Tensor, lengths: LongTensor) -> Tensor:
-        return self.encoder_module(x.squeeze(-1))
+        return self._module(x.squeeze(-1))
 
 
-class EmbeddingsTestCase(padding.EncoderPaddingTestCase):
-    encoder_wrapper_class = EmbeddingsWrapper
+class EmbeddingsTestCase(seq2seq.EncoderPaddingTestCase):
+    module_wrapper_class = EmbeddingsWrapper
 
 
 if __name__ == '__main__':

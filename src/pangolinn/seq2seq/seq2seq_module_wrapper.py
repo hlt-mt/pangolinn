@@ -15,12 +15,12 @@ import torch
 from torch import nn, LongTensor, Tensor
 
 
-class EncoderModuleWrapper:
+class PangolinnSeq2SeqModuleWrapper:
     """
-    Wrapper of your encoder module used in pangolinn tests. To test your network, extend
+    Wrapper of your module used in pangolinn tests. To test your network, extend
     this class by implementing at least:
 
-     - build_encoder_module;
+     - build_module;
      - num_input_channels;
      - forward.
 
@@ -28,27 +28,27 @@ class EncoderModuleWrapper:
     Please refer to the documentation of each method to check if you need (or not) to override it.
     """
     def __init__(self):
-        self.encoder_module = self.build_encoder_module()
-        self.encoder_module.eval()
+        self._module = self.build_module()
+        self._module.eval()
 
-    def build_encoder_module(self) -> nn.Module:
+    def build_module(self) -> nn.Module:
         """
-        This method is responsible for building the encoder module that you want to test.
+        This method is responsible for building the module that you want to test.
         Override this method so that it creates an instance of the module to be tested.
         The module does not need to be initialized with specific weights.
 
         :return: the network you want to test.
         """
         raise NotImplementedError(
-            "Please implement build_encoder_module to return the encoder block to test")
+            "Please implement build_module to return the module to test")
 
     @property
     def num_input_channels(self) -> int:
         """
-        This property has to be overridden and return the number of channels expected in
+        This property has to be overridden and returns the number of channels expected in
         input by the module to be tested. It is typically the third dimension of
         sequence-to-sequence modules, in addition to the batch size and the sequence length.
-        In the case of encoders that expect a single integer (e.g., the text token id in text
+        In the case of modules that expect a single integer (e.g., the text token id in text
         processing), this should be set to 1 and when overriding the forward method you can
         squeeze the last dimension before feeding the module with it.
 

@@ -11,5 +11,6 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License
-from .encoder_module_wrapper import EncoderModuleWrapper  # noqa: F401
+from .causal_tester import CausalTestCase  # noqa: F401
 from .padding_tester import EncoderPaddingTestCase  # noqa: F401
+from .seq2seq_module_wrapper import PangolinnSeq2SeqModuleWrapper  # noqa: F401

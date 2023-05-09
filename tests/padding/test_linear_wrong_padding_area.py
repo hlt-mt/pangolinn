@@ -15,16 +15,16 @@ import unittest
 
 from torch import Tensor, LongTensor, nn
 
-from src.pangolinn import padding
+from pangolinn import seq2seq
 
 
-class LinearPaddingUnsafeWrapper(padding.EncoderModuleWrapper):
+class LinearPaddingUnsafeWrapper(seq2seq.PangolinnSeq2SeqModuleWrapper):
     """
     Wrapper to test a linear layer which does not handle padding properly.
     It does not return zeroes in the padding area, although the linear layer
     returns the same output in the non-padding area.
     """
-    def build_encoder_module(self) -> nn.Module:
+    def build_module(self) -> nn.Module:
         return nn.Linear(self.num_input_channels, self.num_output_channels)
 
     @property
@@ -32,11 +32,11 @@ class LinearPaddingUnsafeWrapper(padding.EncoderModuleWrapper):
         return 4
 
     def forward(self, x: Tensor, lengths: LongTensor) -> Tensor:
-        return self.encoder_module(x)
+        return self._module(x)
 
 
-class LinearPaddingUnsafeTestCase(padding.EncoderPaddingTestCase):
-    encoder_wrapper_class = LinearPaddingUnsafeWrapper
+class LinearPaddingUnsafeTestCase(seq2seq.EncoderPaddingTestCase):
+    module_wrapper_class = LinearPaddingUnsafeWrapper
 
     def test_padding_area_is_zero(self):
         with self.assertRaises(AssertionError) as ae:

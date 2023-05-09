@@ -16,14 +16,14 @@ import unittest
 import torch
 from torch import Tensor, LongTensor, nn, BoolTensor
 
-from src.pangolinn import padding
+from pangolinn import seq2seq
 
 
-class LinearPaddingSafeWrapper(padding.EncoderModuleWrapper):
+class LinearPaddingSafeWrapper(seq2seq.PangolinnSeq2SeqModuleWrapper):
     """
     Wrapper to test a linear layer which does properly handles padding.
     """
-    def build_encoder_module(self) -> nn.Module:
+    def build_module(self) -> nn.Module:
         return nn.Linear(self.num_input_channels, self.num_output_channels)
 
     @property
@@ -38,13 +38,13 @@ class LinearPaddingSafeWrapper(padding.EncoderModuleWrapper):
         return padding_mask >= lengths.unsqueeze(1).expand(-1, max_len)
 
     def forward(self, x: Tensor, lengths: LongTensor) -> Tensor:
-        output_padding_unsafe = self.encoder_module(x)
+        output_padding_unsafe = self._module(x)
         padding_mask = self.padding_mask_from_lens(lengths)
         return output_padding_unsafe.masked_fill(padding_mask.unsqueeze(-1), 0.0)
 
 
-class LinearPaddingSafeTestCase(padding.EncoderPaddingTestCase):
-    encoder_wrapper_class = LinearPaddingSafeWrapper
+class LinearPaddingSafeTestCase(seq2seq.EncoderPaddingTestCase):
+    module_wrapper_class = LinearPaddingSafeWrapper
 
 
 if __name__ == '__main__':

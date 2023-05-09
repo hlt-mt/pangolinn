@@ -15,16 +15,16 @@ import unittest
 
 from torch import Tensor, LongTensor, nn
 
-from src.pangolinn import padding
+from pangolinn import seq2seq
 
 
-class ConvPaddingUnsafeWrapper(padding.EncoderModuleWrapper):
+class ConvPaddingUnsafeWrapper(seq2seq.PangolinnSeq2SeqModuleWrapper):
     """
     Wrapper to test a sequence of two convolutional layers that do not
     consider padding and, as such, (wrongly) return different outputs
     according to the padding amount.
     """
-    def build_encoder_module(self) -> nn.Module:
+    def build_module(self) -> nn.Module:
         return nn.Sequential(self.build_conv1d(), self.build_conv1d())
 
     def build_conv1d(self) -> nn.Module:
@@ -40,11 +40,11 @@ class ConvPaddingUnsafeWrapper(padding.EncoderModuleWrapper):
         return 4
 
     def forward(self, x: Tensor, lengths: LongTensor) -> Tensor:
-        return self.encoder_module(x.transpose(1, 2)).transpose(1, 2)
+        return self._module(x.transpose(1, 2)).transpose(1, 2)
 
 
-class ConvPaddingUnsafeTestCase(padding.EncoderPaddingTestCase):
-    encoder_wrapper_class = ConvPaddingUnsafeWrapper
+class ConvPaddingUnsafeTestCase(seq2seq.EncoderPaddingTestCase):
+    module_wrapper_class = ConvPaddingUnsafeWrapper
 
     def test_padding_area_is_zero(self):
         with self.assertRaises(AssertionError) as ae:

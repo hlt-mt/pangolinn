@@ -18,38 +18,34 @@ from torch import Tensor, LongTensor, nn
 from pangolinn import seq2seq
 
 
-class LinearPaddingWrongShapeWrapper(seq2seq.PangolinnSeq2SeqModuleWrapper):
+class TransformerDecoderWrapper(seq2seq.PangolinnSeq2SeqModuleWrapper):
     """
-    Wrapper to test a linear layer which does not return the shape expected
-    according to `num_output_channels`.
+    Wrapper to test a layer that does not look at the future, so it is safe in causal models.
     """
     def build_module(self) -> nn.Module:
-        return nn.Linear(self.num_input_channels, self.num_input_channels)
+        return nn.TransformerEncoderLayer(
+            self.num_input_channels, 1, dim_feedforward=8, batch_first=True)
 
     @property
     def num_input_channels(self) -> int:
         return 4
 
-    @property
-    def num_output_channels(self) -> int:
-        return 2
-
     def forward(self, x: Tensor, lengths: LongTensor) -> Tensor:
         return self._module(x)
 
 
-class LinearPaddingWrongShapeTestCase(seq2seq.EncoderPaddingTestCase):
-    module_wrapper_class = LinearPaddingWrongShapeWrapper
+class NonCausalModuleTestCase(seq2seq.CausalTestCase):
+    module_wrapper_class = TransformerDecoderWrapper
 
-    def test_padding_area_is_zero(self):
+    def test_not_looking_at_the_future(self):
         with self.assertRaises(AssertionError) as ae:
-            super().test_padding_area_is_zero()
-        self.assertIn("Unexpected output shape", str(ae.exception))
+            super().test_not_looking_at_the_future()
+        self.assertIn("Tensor-likes are not close", str(ae.exception))
 
-    def test_batch_size_does_not_matter(self):
+    def test_gradient_not_flowing_from_future(self):
         with self.assertRaises(AssertionError) as ae:
-            super().test_batch_size_does_not_matter()
-        self.assertIn("Unexpected output shape", str(ae.exception))
+            super().test_gradient_not_flowing_from_future()
+        self.assertIn("within 7 places", str(ae.exception))
 
 
 if __name__ == '__main__':
