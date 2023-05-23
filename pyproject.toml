@@ -30,7 +30,7 @@ dependencies = [
 [project.optional-dependencies]
 # numpy avoid warnings when using torch convolutions in tests
 dev = ["flake8", "numpy"]
-release = ["build", "twine"]
+release = ["build", "twine", "sphinx", "sphinx-rtd-theme"]
 
 [tool.setuptools.packages.find]
 where = ["src"]

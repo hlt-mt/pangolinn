@@ -39,8 +39,13 @@ build_artifacts:
   script:
     - python -m pip install .[release]
     - python -m build
+    - cd docs
+    - make html
+    - cd build/html
+    - zip -r ../../doc_html.zip *
   artifacts:
     paths:
       - dist/*.whl
+      - docs/doc_html.zip
   rules:
     - if: '$CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH'

@@ -1,36 +1,70 @@
 <div align="center">
-  <img src="docs/imgs/pangolinn_logo.png" width="200" alt="logo">
+  <img src="docs/source/imgs/pangolinn_logo.png" width="200" alt="logo">
 </div>
 
 # pangolinn: Unit Testing for Neural Networks
 
-As a Pangoling looks for bugs and catches them, the goal of this
+As a Pangolin looks for bugs and catches them, the goal of this
 library is ot help developers finding bugs in their neural networks
 and newly-created models.
 
-Currently, the projects includes: TODO
+## 🖥 Installation
 
-## Installation
+**pangolinn** is available on PyPi and can be installed by running:
+```bash
+pip install pangolinn
+```
+Alternatively, the latest development version can be installed with:
+```bash
+git clone https://github.com/hlt-mt/pangolinn.git
+cd pangolinn
+pip install -e .
+```
 
-TODO
+If you want to contribute to the project, you can install
+the additional development dependencies by using the `dev` specifier:
 
-## Usage
+```
+pip install -e .[dev]
+```
 
-TODO
+## 🔧 Usage
 
-## Support
-Tell people where they can go to for help. It can be any combination of an issue tracker, a chat room, an email address, etc.
+To test your model/module you need to:
 
-## Contributing
-State if you are open to contributions and what your requirements are for accepting them.
+ - create a pangolinn wrapper that builds it and determines how to use it;
+ - create a test suite that inherits from the pangolinn tester you want to use and
+   set the attribute `module_wrapper_class` to the name of the wrapper class of your module.
 
-For people who want to make changes to your project, it's helpful to have some documentation on how to get started. Perhaps there is a script that they should run or some environment variables that they need to set. Make these steps explicit. These instructions could also be useful to your future self.
+For complete examples, please refer to the UTs in this repository, e.g.
+[Transformer decoder causality test](tests/causal/test_causal_module_safe.py).
 
-You can also document commands to lint the code or run tests. These steps help to ensure high code quality and reduce the likelihood that the changes inadvertently break something. Having instructions for running tests is especially helpful if it requires external setup, such as starting a Selenium server for testing in a browser.
+## 🚀 Features
 
-## Citation
+The repository currently contains the following test suites:
 
-If using this repository, please consider citing:
+- [x] **Encoder padding tester**: checks that the presence of padding
+      does not alter the results.
+- [x] **Causality tester**: checks that a module fulfils the _causal_ property,
+      i.e. it does not look at future elements of the sequence (e.g., as autoregressive
+      decoders have to do).
+
+
+## 💡 Contributing and Feature Requests
+
+Our goal is to provide a comprehensive test suit for neural networks, therefore contributions from interested
+researchers and developers are extremely appreciated.
+
+You can either create a ***feature request*** to propose new tests or a ***pull request*** to contribute to our
+repository with your own tests.
+
+## 📃 Licence
+**pangolinn** is licensed under [Apache Version 2.0](LICENSE). 
+
+
+## 🏅 Citation
+
+If using this repository, please cite:
 
 ```
 @inproceedings{Papi2023ReproducibilityIN,
