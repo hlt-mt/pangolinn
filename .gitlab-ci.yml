@@ -42,10 +42,10 @@ build_artifacts:
     - cd docs
     - make html
     - cd build/html
-    - zip -r ../../doc_html.zip *
+    - tar -cf ../../doc_html.tar.gz *
   artifacts:
     paths:
       - dist/*.whl
-      - docs/doc_html.zip
+      - docs/doc_html.tar.gz
   rules:
     - if: '$CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH'
