@@ -67,9 +67,11 @@ repository with your own tests.
 If using this repository, please cite:
 
 ```
-@inproceedings{Papi2023ReproducibilityIN,
-  title={{Reproducibility is Nothing without Correctness: The Importance of Testing Code in NLP}},
-  author={Sara Papi and Marco Gaido and Andrea Pilzer and Matteo Negri},
-  year={2023}
+@inproceedings{papi-et-al-2024-when,
+  title={{When Good and Reproducible Results are a Giant with Feet of Clay: The Importance of Software Quality in NLP}},
+  author={Papi, Sara and Gaido, Marco and Pilzer, Andrea and Negri, Matteo},
+  booktitle = "Proceedings of the 62nd Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)",
+  address = "Bangkok, Thailand",
+  year={2024}
 }
 ```
