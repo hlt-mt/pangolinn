@@ -34,7 +34,6 @@ jobs:
     if: github.event_name == 'pull_request' || github.ref == 'refs/heads/main'
 
   lint:
-    needs: setup
     runs-on: ubuntu-latest
 
     steps:
