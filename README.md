@@ -5,7 +5,7 @@
 # pangolinn: Unit Testing for Neural Networks
 
 As a Pangolin looks for bugs and catches them, the goal of this
-library is ot help developers finding bugs in their neural networks
+library is to help developers finding bugs in their neural networks
 and newly-created models.
 
 ## 🖥 Installation
